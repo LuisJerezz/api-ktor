@@ -7,7 +7,7 @@ data class User(
     val email : String?,
     val password : String?,
     val phone : Int?,
-    val urlImage : String?,
+    val image : String?,
     val disponible : Boolean? = true,
     val token : String?
 )

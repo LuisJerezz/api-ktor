@@ -9,7 +9,7 @@ object UserData {
             email = "juan.perez@example.com",
             password = "password123",
             phone = 123456789,
-            urlImage = "https://example.com/images/juan.jpg",
+            image = "https://example.com/images/juan.jpg",
             disponible = true,
             token = "some-token-123"
         ),
@@ -18,7 +18,7 @@ object UserData {
             email = "ana.garcia@example.com",
             password = "securePassword456",
             phone = 987654321,
-            urlImage = "https://example.com/images/ana.jpg",
+            image = "https://example.com/images/ana.jpg",
             disponible = true,
             token = "some-token-456"
         ),
@@ -27,7 +27,7 @@ object UserData {
             email = "carlos.rodriguez@example.com",
             password = "myPassword789",
             phone = 112233445,
-            urlImage = "https://example.com/images/carlos.jpg",
+            image = "https://example.com/images/carlos.jpg",
             disponible = false,
             token = "some-token-789"
         )
