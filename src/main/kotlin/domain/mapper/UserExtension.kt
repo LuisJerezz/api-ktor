@@ -5,6 +5,7 @@ import com.example.domain.models.User
 
 fun User.toUpdateUser() : User{
     return User(
+        dni = dni,
         name = name,
         email = email,
         password = password,
@@ -19,6 +20,7 @@ fun User.toUpdateUser() : User{
 
 fun UserDao.toUser() : User{
     val user = User(
+        dni ?: "600123001",
         this.name ?: "Sin nombre",
         email,
         password,

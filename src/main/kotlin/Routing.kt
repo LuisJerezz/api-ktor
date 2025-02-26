@@ -9,6 +9,9 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
+
+        userRouting()
+
         get("/") {
             call.respondText("Hello World!")
         }

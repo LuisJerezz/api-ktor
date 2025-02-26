@@ -5,6 +5,7 @@ import com.example.domain.models.User
 object UserData {
     val listUser = mutableListOf<User>(
         User(
+            dni = "600123001",
             name = "Juan Pérez",
             email = "juan.perez@example.com",
             password = "password123",
@@ -14,6 +15,7 @@ object UserData {
             token = "some-token-123"
         ),
         User(
+            dni = "600123002",
             name = "Ana García",
             email = "ana.garcia@example.com",
             password = "securePassword456",
@@ -23,6 +25,7 @@ object UserData {
             token = "some-token-456"
         ),
         User(
+            dni = "600123003",
             name = "Carlos Rodríguez",
             email = "carlos.rodriguez@example.com",
             password = "myPassword789",

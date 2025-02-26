@@ -3,6 +3,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
+    val dni : String?,
     val name : String?,
     val email : String?,
     val password : String?,

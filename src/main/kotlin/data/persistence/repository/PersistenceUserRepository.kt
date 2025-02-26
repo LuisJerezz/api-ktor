@@ -19,6 +19,18 @@ class PersistenceUserRepository : UserInterface {
 
     }
 
+    override suspend fun getUserByDni(dni: String): User? {
+        return suspendTransaction {
+            UserDao.find{
+                UserTable.dni eq dni
+            }
+                .limit(1)
+                .map { it.toUser() }.firstOrNull()
+        }
+    }
+
+
+
     override suspend fun getUserByEmail(email: String): User? {
         return suspendTransaction {
             UserDao.find{

@@ -5,6 +5,9 @@ import com.example.domain.models.User
 interface UserInterface {
     suspend fun getAllUsers() : List<User>
 
+
+    suspend fun getUserByDni(dni : String) : User?
+
     suspend fun getUserByEmail(email : String) : User?
 
     suspend fun getUsersByName(name : String) : List<User>
