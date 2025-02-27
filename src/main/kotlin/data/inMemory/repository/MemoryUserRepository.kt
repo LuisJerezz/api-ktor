@@ -35,6 +35,17 @@ class MemoryUserRepository : UserInterface {
         }
     }
 
+    override suspend fun addUser(user: User): Boolean {
+        val user = user.dni?.let { getUserByDni(it) }
+        return if (user!=null){
+            false
+        }else{
+            UserData.listUser.add(user!!)
+            true
+        }
+
+    }
+
     override suspend fun login(email: String, pass: String) : User?{
         TODO("Not yet implemented")
     }

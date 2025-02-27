@@ -7,10 +7,10 @@ services:
       - "3305:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: dbLibreria
-      MYSQL_USER: luis  #usuario santi
-      MYSQL_PASSWORD: luis #contraseña del usuario santi
-      MYSQL_ROOT_PASSWORD: root #contraseña del root
+      MYSQL_DATABASE: dbUsers
+      MYSQL_USER: luis
+      MYSQL_PASSWORD: luis
+      MYSQL_ROOT_PASSWORD: luis
     volumes:
       - ./dump:/docker-entrypoint-initdb.d
       - ./conf:/etc/mysql/conf.d
@@ -27,7 +27,7 @@ services:
       - 8000:80
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root #contraseña del root
+      MYSQL_ROOT_PASSWORD: luis
 volumes:
   persistent:
 

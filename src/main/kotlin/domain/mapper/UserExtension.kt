@@ -21,7 +21,7 @@ fun User.toUpdateUser() : User{
 fun UserDao.toUser() : User{
     val user = User(
         dni ?: "600123001",
-        this.name ?: "Sin nombre",
+        name ?: "Sin nombre",
         email,
         password,
         phone ?: 123456789,

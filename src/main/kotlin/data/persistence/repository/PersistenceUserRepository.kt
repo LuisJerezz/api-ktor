@@ -51,11 +51,32 @@ class PersistenceUserRepository : UserInterface {
         }
     }
 
-    override suspend fun deleteUser(email: String): Boolean = suspendTransaction{
+    override suspend fun deleteUser(dni: String): Boolean = suspendTransaction{
         val num = UserTable
-            .deleteWhere { UserTable.email eq email }
+            .deleteWhere { UserTable.dni eq dni }
         num == 1
 
+    }
+
+    override suspend fun addUser(user: User): Boolean {
+        val user = user.dni?.let { getUserByDni(it) }
+        return if (user != null){
+            suspendTransaction {
+                UserDao.new {
+                    this.name = user.name!!
+                    this.dni = user.dni!!
+                    this.image = user.image!!
+                    this.phone = user.phone!!
+                    this.email = user.email!!
+                    this.token = user.token!!
+                    this.password = password
+                    this.disponible = user.disponible!!
+                }
+            }
+            true
+        }else{
+            false
+        }
     }
 
     override suspend fun login(email: String, pass: String) : User? {

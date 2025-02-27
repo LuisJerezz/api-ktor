@@ -1,5 +1,66 @@
 # ktor-luis
 
+Este proyecto esta creado usando [Ktor Project Generator](https://start.ktor.io/settings)
+
+
+### TO-DO
+Documentar todos los errores, por ejemplo con el puerto de mysql, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This project was created using the [Ktor Project Generator](https://start.ktor.io).
 
 Here are some useful links to get you started:

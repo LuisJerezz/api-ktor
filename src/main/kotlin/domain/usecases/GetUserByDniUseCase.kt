@@ -1,9 +1,9 @@
 package com.example.domain.usecases
 
-import com.example.data.persistence.repository.PersistenceUserRepository
 import com.example.domain.models.User
+import com.example.domain.repository.UserInterface
 
-class GetUserByDniUseCase (val repository: PersistenceUserRepository) {
+class GetUserByDniUseCase (val repository: UserInterface) {
     var dni : String? = null
 
     suspend operator fun invoke() : User?{
