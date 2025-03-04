@@ -59,23 +59,28 @@ class PersistenceUserRepository : UserInterface {
     }
 
     override suspend fun addUser(user: User): Boolean {
-        val user = user.dni?.let { getUserByDni(it) }
-        return if (user != null){
-            suspendTransaction {
-                UserDao.new {
-                    this.name = user.name!!
-                    this.dni = user.dni!!
-                    this.image = user.image!!
-                    this.phone = user.phone!!
-                    this.email = user.email!!
-                    this.token = user.token!!
-                    this.password = password
-                    this.disponible = user.disponible!!
-                }
+        return suspendTransaction {
+            // Validar solo campos obligatorios (DNI, name, email, password)
+            if (user.dni.isNullOrEmpty() || user.name.isNullOrEmpty() ||
+                user.email.isNullOrEmpty() || user.password.isNullOrEmpty()) {
+                return@suspendTransaction false
+            }
+
+            // Verificar si el usuario ya existe
+            val existingUser = UserDao.find { UserTable.dni eq user.dni }.firstOrNull()
+            if (existingUser != null) return@suspendTransaction false
+
+            // Insertar (phone puede ser null)
+            UserDao.new {
+                dni = user.dni!!
+                name = user.name!!
+                email = user.email!!
+                password = user.password!!
+                phone = user.phone // 👈 No uses "!!", acepta null
+                image = user.image
+                disponible = user.disponible ?: true
             }
             true
-        }else{
-            false
         }
     }
 

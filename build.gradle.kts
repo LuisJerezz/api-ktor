@@ -29,8 +29,13 @@ dependencies {
     //implementation(libs.ktor.server.config.yaml)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
-
+    implementation("org.mindrot:jbcrypt:0.4")
     implementation(libs.exposed.dao)
     implementation(libs.mariadb)  // Usando la versión desde el archivo libs.versions.toml
     implementation(libs.exposedjdbc)  // Usando la versión desde el archivo libs.versions.toml
+
+    implementation("io.ktor:ktor-server-auth-jwt:3.0.3")  // Autenticación JWT
+    implementation("io.ktor:ktor-server-auth:3.0.3")      // Módulo de autenticación
+    implementation("com.auth0:java-jwt:4.4.0")            // Librería para manejar JWT
+
 }
