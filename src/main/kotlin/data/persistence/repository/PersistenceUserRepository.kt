@@ -10,6 +10,7 @@ import com.example.domain.repository.UserInterface
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.update
 
 class PersistenceUserRepository : UserInterface {
     override suspend fun getAllUsers(): List<User> {
@@ -27,6 +28,26 @@ class PersistenceUserRepository : UserInterface {
                 .limit(1)
                 .map { it.toUser() }.firstOrNull()
         }
+    }
+
+    override suspend fun updateUser(user: User, dni: String): Boolean {
+        var num = 0
+        try {
+            suspendTransaction {
+                num = UserTable.update({ UserTable.dni eq dni }) { statements ->
+                    user.name?.let { statements[name] = it }
+                    user.email?.let { statements[email] = it }  // Usa 'it' para asignar el valor recibido
+                    user.phone?.let { statements[phone] = it }
+                    user.image?.let { statements[image] = it }
+                    user.disponible?.let { statements[disponible] = it }
+                    // Si quisieras actualizar password, también agrégalo aquí
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+        return num == 1
     }
 
 
@@ -81,6 +102,14 @@ class PersistenceUserRepository : UserInterface {
                 disponible = user.disponible ?: true
             }
             true
+        }
+    }
+
+    override suspend fun updateTokenId(dni: String, tokenId: String) {
+        suspendTransaction {
+            UserTable.update({ UserTable.dni eq dni }) { statements ->
+                statements[UserTable.tokenId] = tokenId
+            }
         }
     }
 

@@ -13,4 +13,5 @@ class UserDao(id: EntityID<Int>) : IntEntity(id) {
     var phone by UserTable.phone
     var image by UserTable.image
     var disponible by UserTable.disponible
+    var tokenId by UserTable.tokenId
 }

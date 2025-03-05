@@ -1,6 +1,7 @@
 package com.example
 
 import com.example.domain.mapper.toUpdateUser
+import com.example.domain.models.UpdatedUser
 import com.example.domain.models.User
 import com.example.domain.models.UserRegister
 import com.example.domain.usecases.ProviderUseCase
@@ -87,6 +88,51 @@ fun Route.userRouting(){
                 call.respond(HttpStatusCode.BadRequest, "Error en los datos. Probablemente falten.")
             }
         }
+
+        patch("/users/{userDni}") {
+            try {
+                val dni = call.parameters["userDni"] ?: run {
+                    call.respond(HttpStatusCode.BadRequest, "Debes identificar el empleado")
+                    return@patch
+                }
+
+                // Recibe solo los campos a actualizar
+                val updateRequest = call.receive<UpdatedUser>()
+
+                // Recupera el usuario actual de la base de datos
+                val currentUser = ProviderUseCase.getUserByDni(dni)
+                if (currentUser == null) {
+                    call.respond(HttpStatusCode.NotFound, "Usuario no encontrado")
+                    return@patch
+                }
+
+                // Mezcla los campos: si el campo en updateRequest es null, conserva el valor actual.
+                val updatedUser = currentUser.copy(
+                    name = updateRequest.name ?: currentUser.name,
+                    email = updateRequest.email ?: currentUser.email,
+                    password = updateRequest.password ?: currentUser.password,
+                    phone = updateRequest.phone ?: currentUser.phone,
+                    image = updateRequest.image ?: currentUser.image,
+                    disponible = updateRequest.disponible ?: currentUser.disponible
+                )
+
+                // Llama al use case para actualizar el usuario
+                val res = ProviderUseCase.updateUser(updatedUser, dni)
+                if (!res) {
+                    call.respond(HttpStatusCode.Conflict, "El empleado no pudo modificarse. Puede que no exista")
+                    return@patch
+                }
+
+                call.respond(HttpStatusCode.OK, "Se ha actualizado correctamente con dni = $dni")
+            } catch (e: ContentTransformationException) {
+                call.respond(HttpStatusCode.BadRequest, "Error en el formato JSON enviado")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                call.respond(HttpStatusCode.InternalServerError, "Error inesperado")
+            }
+        }
+
+
 
     }
 

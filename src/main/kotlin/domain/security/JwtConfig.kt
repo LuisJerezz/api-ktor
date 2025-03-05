@@ -3,7 +3,9 @@ package com.example.domain.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.example.domain.usecases.ProviderUseCase
 import io.ktor.server.auth.jwt.*
+import kotlinx.coroutines.runBlocking
 import java.sql.Date
 /*
 CON ESTE OBJECT, KTOR APRENDE A CREAR EL TOKEN Y A VERIFICARLO/VALIDARLO
@@ -44,36 +46,20 @@ object JwtConfig {
     private const val realm = "ktor_realm"
     private val algorithm = Algorithm.HMAC256(secret)
 
-    /*
-    No quiero que expire. De lo contrario necesitaría un segundo token de refresco.
-     */
-    fun generateToken(dni: String): String {
+    // Se espera que se pase el tokenId generado para el usuario
+    fun generateToken(dni: String, tokenId: String): String {
         return JWT.create()
             .withIssuer(issuer)
             .withAudience(audience)
             .withSubject("Authentication")
-            .withClaim("dni", dni) //son específicas del usuario.
-            .withClaim("time", System.currentTimeMillis()) //específicas del usuario.
-            // .withExpiresAt(Date(System.currentTimeMillis() + 600000))  // Expira en 10 min
+            .withClaim("dni", dni)
+            .withClaim("tokenId", tokenId)
+            .withClaim("time", System.currentTimeMillis())
+            // Puedes definir una expiración si lo requieres
+            //.withExpiresAt(Date(System.currentTimeMillis() + 600000))
             .sign(algorithm)
     }
 
-    /*
-    Se encargará de la verificación del token.
-    1.- Se recibe un token y a partir del contexto de autenticación.
-    2.- Se comprueba la validación del mismo utilizando verifier.
-        - pasamos el algoritmo donde se define la clave secreta.
-        - pasamos el dominio y la audience
-        Si el issueer y la audience coincide con lo configurado, se acepta el token.
-    3.- Si se acepta el token, ahora toca validarlo y extraer información.
-       - credential.payload (contiene la información del payload en base64)
-          - Extraemos el username y comprobamos que sea distinto de null. Si existe, se crea
-          un objeto JWTPrincipal con la información del payload. esto sería valido:
-          {
-               "username": "john_doe"
-          }
-    4.- Se crea un objeto JWTPrincipal, con información del usuario extraída del token
-     */
     fun configureAuthentication(config: JWTAuthenticationProvider.Config) {
         config.realm = realm
         config.verifier(
@@ -83,9 +69,18 @@ object JwtConfig {
                 .build()
         )
         config.validate { credential ->
-            if (credential.payload.getClaim("dni").asString() != null) {
-                JWTPrincipal(credential.payload)
-            } else null
+            val dni = credential.payload.getClaim("dni").asString()
+            val tokenId = credential.payload.getClaim("tokenId").asString()
+            if (dni != null && tokenId != null) {
+                // Usar runBlocking para llamar a la función suspend
+                val userFromDB = runBlocking { ProviderUseCase.getUserByDni(dni) }
+                if (userFromDB != null && userFromDB.tokenId == tokenId) {
+                    JWTPrincipal(credential.payload)
+                } else null
+            } else {
+                null
+            }
         }
+
     }
 }

@@ -10,4 +10,5 @@ data class User(
     val phone : Int?,
     val image : String?,
     val disponible : Boolean? = true,
+    val tokenId: String? = null
 )

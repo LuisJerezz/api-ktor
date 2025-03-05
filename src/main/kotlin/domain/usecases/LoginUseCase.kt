@@ -5,6 +5,8 @@ import com.example.domain.repository.UserInterface
 import com.example.domain.security.JwtConfig
 import com.example.domain.security.PasswordHashInterface
 
+import java.util.UUID
+
 class LoginUseCase(
     private val repository: UserInterface,
     private val passwordHash: PasswordHashInterface
@@ -18,8 +20,15 @@ class LoginUseCase(
         }
 
         return if (passwordHash.verify(password, user.password)) {
-            val token = JwtConfig.generateToken(user.dni!!)
-            user to token
+            // Generar un nuevo tokenId
+            val newTokenId = UUID.randomUUID().toString()
+
+            // Actualizar el usuario con el nuevo tokenId en la base de datos
+            repository.updateTokenId(user.dni!!, newTokenId)
+
+            // Generar el token incluyendo el tokenId
+            val token = JwtConfig.generateToken(user.dni, newTokenId)
+            user.copy(tokenId = newTokenId) to token
         } else {
             null
         }

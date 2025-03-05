@@ -23,15 +23,19 @@ fun Route.registerRouting() {
 
         try {
             val userRegistration = call.receive<UserRegister>()
+            println("call hecho")
             val user = userRegistration.toDomainUser()
 
             val (success, message) = ProviderUseCase.registerUser(user)
+
+            println("Resultado del registro -> success: $success, message: $message")
 
             if (success) {
                 call.respond(HttpStatusCode.Created, mapOf("message" to message))
             } else {
                 call.respond(HttpStatusCode.BadRequest, mapOf("error" to message))
             }
+
         } catch (e: Exception) {
             call.respond(
                 HttpStatusCode.InternalServerError,

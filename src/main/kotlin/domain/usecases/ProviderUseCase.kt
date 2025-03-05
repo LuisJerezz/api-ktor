@@ -17,6 +17,7 @@ object ProviderUseCase {
     private val getUserByDniUseCase = GetUserByDniUseCase(repository)
     private val deleteUserUseCase = DeleteUserUseCase(repository)
     private val insertUserUseCase = InsertUserUseCase(repository)
+    private val updateUserUseCase = UpdateUserUseCase(repository)
     private val passwordHash: PasswordHashInterface = BCryptPasswordHash()
     private val registerUserUseCase = RegisterUserUseCase(
         repository = repository,
@@ -74,6 +75,17 @@ object ProviderUseCase {
             true
         }
 
+    }
+
+    suspend fun updateUser(updateUser: User?, dni: String?) : Boolean{
+        if (updateUser == null){
+            logger.warn("Usuario null")
+            return false
+        }
+
+        updateUserUseCase.user = updateUser
+        updateUserUseCase.dni = dni
+        return updateUserUseCase()
     }
 
     suspend fun registerUser(user: User): Pair<Boolean, String> {

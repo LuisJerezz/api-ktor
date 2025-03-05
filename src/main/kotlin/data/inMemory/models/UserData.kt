@@ -11,7 +11,8 @@ object UserData {
             password = "password123",
             phone = 123456789,
             image = "https://example.com/images/juan.jpg",
-            disponible = true
+            disponible = true,
+            tokenId = "null"
         ),
         User(
             dni = "600123002",
@@ -20,7 +21,8 @@ object UserData {
             password = "securePassword456",
             phone = 987654321,
             image = "https://example.com/images/ana.jpg",
-            disponible = true
+            disponible = true,
+            tokenId = "null"
         ),
         User(
             dni = "600123003",
@@ -29,7 +31,8 @@ object UserData {
             password = "myPassword789",
             phone = 112233445,
             image = "https://example.com/images/carlos.jpg",
-            disponible = false
+            disponible = false,
+            tokenId = "null"
         )
     )
 }
