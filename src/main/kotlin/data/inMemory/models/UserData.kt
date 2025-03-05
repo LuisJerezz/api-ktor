@@ -12,7 +12,7 @@ object UserData {
             phone = 123456789,
             image = "https://example.com/images/juan.jpg",
             disponible = true,
-            tokenId = "null"
+            token = "null"
         ),
         User(
             dni = "600123002",
@@ -22,7 +22,7 @@ object UserData {
             phone = 987654321,
             image = "https://example.com/images/ana.jpg",
             disponible = true,
-            tokenId = "null"
+            token = "null"
         ),
         User(
             dni = "600123003",
@@ -32,7 +32,7 @@ object UserData {
             phone = 112233445,
             image = "https://example.com/images/carlos.jpg",
             disponible = false,
-            tokenId = "null"
+            token = "null"
         )
     )
 }

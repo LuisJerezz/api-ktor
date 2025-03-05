@@ -7,6 +7,7 @@ interface UserInterface {
 
     suspend fun getUserByDni(dni : String) : User?
 
+    suspend fun updateUserToken(dni:String, token:String) : Boolean
     suspend fun updateUser(user: User, dni: String) : Boolean
 
     suspend fun getUserByEmail(email : String) : User?
@@ -17,7 +18,6 @@ interface UserInterface {
 
     suspend fun addUser(user: User) : Boolean
 
-    suspend fun updateTokenId(dni: String, tokenId: String)
 
     suspend fun login(email: String, pass: String) : User?
 

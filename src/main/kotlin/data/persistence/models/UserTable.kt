@@ -10,5 +10,5 @@ object UserTable : IntIdTable("User") {
     val phone = integer("phone").nullable()  // Campo opcional
     val image = varchar("image", 255).nullable()
     val disponible = bool("disponible").default(true)
-    val tokenId = varchar("tokenId", 255).nullable()
+    val token = varchar("tokenId", 255).nullable()
 }

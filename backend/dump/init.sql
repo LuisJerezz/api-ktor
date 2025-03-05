@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `User` (
     phone VARCHAR(20),  -- Cambiado a VARCHAR para tus datos
     image VARCHAR(255),
     disponible BOOLEAN,
-    tokenId VARCHAR(255) DEFAULT NULL
+    token VARCHAR(255) DEFAULT NULL
 );
 
 

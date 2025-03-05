@@ -3,6 +3,7 @@ package com.example.domain.usecases
 import com.example.data.persistence.repository.PersistenceUserRepository
 import com.example.domain.models.User
 import com.example.domain.security.BCryptPasswordHash
+import com.example.domain.security.JwtConfig
 import com.example.domain.security.PasswordHashInterface
 import io.ktor.websocket.*
 import org.slf4j.Logger
@@ -18,6 +19,7 @@ object ProviderUseCase {
     private val deleteUserUseCase = DeleteUserUseCase(repository)
     private val insertUserUseCase = InsertUserUseCase(repository)
     private val updateUserUseCase = UpdateUserUseCase(repository)
+    private val updateUserTokenUseCase = UpdateUserTokenUseCase(repository)
     private val passwordHash: PasswordHashInterface = BCryptPasswordHash()
     private val registerUserUseCase = RegisterUserUseCase(
         repository = repository,
@@ -31,10 +33,13 @@ object ProviderUseCase {
     )
     private val loginUseCase = LoginUseCase(
         repository = repository,
-        passwordHash = passwordHash
+        passwordHash = passwordHash,
+        jwtConfig = JwtConfig // Añadir esta dependencia
     )
 
-
+    suspend fun updateUserToken(dni: String, token: String): Boolean {
+        return updateUserTokenUseCase(dni, token)
+    }
 
     suspend fun getAllUsers() = getAllUsersUseCase()
 

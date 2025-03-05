@@ -12,7 +12,6 @@ fun Application.configureRouting() {
         registerRouting()
         userRouting()
         loginRouting()
-        protectedRoutes()
 
 
         get("/") {

@@ -13,6 +13,15 @@ class MemoryUserRepository : UserInterface {
         return UserData.listUser.filter { it.dni == dni }.firstOrNull()
     }
 
+    override suspend fun updateUserToken(dni: String, token: String): Boolean {
+        val index = UserData.listUser.indexOfFirst { it.dni == dni }
+        if (index != -1) {
+            val originUser = UserData.listUser[index]
+            UserData.listUser[index] = originUser.copy(token = token) // Cambiar tokenId por token
+        }
+        return true
+    }
+
     override suspend fun updateUser(user: User, dni: String): Boolean {
         val i = UserData.listUser.indexOfFirst { it.dni == dni }
         return if (i != -1) {
@@ -25,7 +34,7 @@ class MemoryUserRepository : UserInterface {
                 phone = user.phone ?: originUser.phone,
                 image = user.image ?: originUser.image,
                 disponible = user.disponible ?: originUser.disponible,
-                tokenId = user.tokenId ?: originUser.tokenId  // Se actualiza el tokenId si se proporciona
+                token = user.token ?: originUser.token  // Se actualiza el tokenId si se proporciona
             )
             true
         } else {
@@ -66,15 +75,6 @@ class MemoryUserRepository : UserInterface {
         }
 
     }
-
-    override suspend fun updateTokenId(dni: String, tokenId: String) {
-        val index = UserData.listUser.indexOfFirst { it.dni == dni }
-        if (index != -1) {
-            val originUser = UserData.listUser[index]
-            UserData.listUser[index] = originUser.copy(tokenId = tokenId)
-        }
-    }
-
 
     override suspend fun login(email: String, pass: String) : User?{
         TODO("Not yet implemented")

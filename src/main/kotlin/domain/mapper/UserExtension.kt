@@ -11,7 +11,8 @@ fun User.toUpdateUser() : User{
         password = password,
         phone = phone,
         image = image,
-        disponible = disponible
+        disponible = disponible,
+        token = token
     )
 
 }
@@ -25,7 +26,8 @@ fun UserDao.toUser() : User{
         password,
         phone ?: 123456789,
         image ?: "null",
-        disponible
+        disponible,
+        token
     )
     return user
 }

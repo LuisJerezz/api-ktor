@@ -24,30 +24,8 @@ fun Route.loginRouting() {
                         call.respond(HttpStatusCode.OK, LoginResponse(token, user))
                     }
                 }
-            } catch (e: ContentTransformationException) {
-                call.respond(HttpStatusCode.BadRequest, "Formato JSON inválido")
             } catch (e: Exception) {
-                call.respond(
-                    HttpStatusCode.InternalServerError,
-                    "Error interno: ${e.message ?: "Desconocido"}"
-                )
-            }
-        }
-    }
-}
-
-fun Route.protectedRoutes() {
-    authenticate("auth-jwt") {
-        get("/me") {
-            val principal = call.principal<JWTPrincipal>()
-            val dni = principal?.payload?.getClaim("dni")?.asString()
-
-            val user = dni?.let { ProviderUseCase.getUserByDni(it) }
-
-            if (user != null) {
-                call.respond(HttpStatusCode.OK, user)
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Usuario no encontrado")
+                call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error interno: ${e.message}"))
             }
         }
     }
