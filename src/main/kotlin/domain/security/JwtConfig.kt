@@ -13,7 +13,7 @@ object JwtConfig {
     private const val realm = "ktor_realm"
     private val algorithm = Algorithm.HMAC256(secret)
 
-    // Nuevo método: genera un token e incluye un tokenId único
+
     fun generateTokenWithId(dni: String): Pair<String, String> {
         val tokenId = UUID.randomUUID().toString()
         val token = JWT.create()
@@ -26,7 +26,7 @@ object JwtConfig {
             .sign(algorithm)
         return tokenId to token
     }
-
+    
     fun configureAuthentication(config: JWTAuthenticationProvider.Config) {
         config.realm = realm
         config.verifier(

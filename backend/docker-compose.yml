@@ -7,7 +7,7 @@ services:
       - "3304:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: dbUsers
+      MYSQL_DATABASE: dbLibreria
       MYSQL_USER: luis
       MYSQL_PASSWORD: luis
       MYSQL_ROOT_PASSWORD: luis

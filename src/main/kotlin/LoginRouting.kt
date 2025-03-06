@@ -4,8 +4,6 @@ import com.example.domain.models.LoginRequest
 import com.example.domain.models.LoginResponse
 import com.example.domain.usecases.ProviderUseCase
 import io.ktor.http.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
@@ -21,7 +19,7 @@ fun Route.loginRouting() {
                     result == null -> call.respond(HttpStatusCode.Unauthorized, "Credenciales inválidas")
                     else -> {
                         val (user, token) = result
-                        call.respond(HttpStatusCode.OK, LoginResponse(token, user))
+                        call.respond(HttpStatusCode.OK, LoginResponse(token, user.email))
                     }
                 }
             } catch (e: Exception) {

@@ -5,7 +5,6 @@ import com.example.domain.models.User
 import com.example.domain.security.BCryptPasswordHash
 import com.example.domain.security.JwtConfig
 import com.example.domain.security.PasswordHashInterface
-import io.ktor.websocket.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -36,6 +35,14 @@ object ProviderUseCase {
         passwordHash = passwordHash,
         jwtConfig = JwtConfig // Añadir esta dependencia
     )
+
+    // -----------------------------------------------------------------
+    // Libros
+
+    private val getBooksUseCase = GetBooksUseCase(repository)
+
+
+
 
     suspend fun updateUserToken(dni: String, token: String): Boolean {
         return updateUserTokenUseCase(dni, token)

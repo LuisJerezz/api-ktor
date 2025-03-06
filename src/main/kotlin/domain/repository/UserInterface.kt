@@ -1,5 +1,6 @@
 package com.example.domain.repository
 
+import com.example.domain.models.LoginResponse
 import com.example.domain.models.User
 
 interface UserInterface {
