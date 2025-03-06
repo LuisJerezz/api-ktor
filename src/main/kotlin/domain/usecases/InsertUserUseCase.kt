@@ -2,16 +2,20 @@ package com.example.domain.usecases
 
 import com.example.domain.models.User
 import com.example.domain.repository.UserInterface
+import com.example.domain.security.PasswordHashInterface
 
-class InsertUserUseCase (val repository: UserInterface){
-    var user : User? = null
-
-    suspend operator fun invoke() : Boolean {
-        return if (user == null){
+class InsertUserUseCase(
+    private val repository: UserInterface,
+    private val passwordHash: PasswordHashInterface
+) {
+    suspend operator fun invoke(user: User): Boolean {
+        return try {
+            val hashedUser = user.copy(
+                password = passwordHash.hash(user.password ?: ""))
+            repository.addUser(hashedUser)
+        } catch (e: Exception) {
             false
-        }else{
-            repository.addUser(user!!)
         }
     }
-
 }
+

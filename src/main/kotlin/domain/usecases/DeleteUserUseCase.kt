@@ -2,7 +2,6 @@ package com.example.domain.usecases
 
 import com.example.domain.repository.UserInterface
 
-
 class DeleteUserUseCase(val repository: UserInterface) {
     var dni : String? = null
 

@@ -14,3 +14,4 @@ class GetUserByDniUseCase (val repository: UserInterface) {
         }
     }
 }
+

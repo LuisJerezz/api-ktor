@@ -13,6 +13,13 @@ CREATE TABLE IF NOT EXISTS `User` (
     token VARCHAR(255) DEFAULT NULL
 );
 
+CREATE TABLE IF NOT EXISTS Book (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    isbn VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    image VARCHAR(255)
+);
 
 -- Insert de datos provenientes de Employee
 INSERT INTO User (id, dni, name, password, email, phone, image, disponible) VALUES
@@ -26,3 +33,11 @@ INSERT INTO User (id, dni, name, password, email, phone, image, disponible) VALU
 (8, '89012345H', 'Elena Torres', '$2b$10$VVZayO6WXFL0Z1pOm0iwW.GQ3jOd1AqIC15/JHvcP1QzPKMecWe2S', 'elena.torres@email.com', '677890123', 'elena.jpg', 1),
 (9, '90123456I', 'Roberto Díaz', '$2b$10$AItzyjJ54u06bGG7e3ws1u4zvEwPr4O1JjXLm2TgXJrpehZ8LXvhO', 'roberto.diaz@email.com', '688901234', 'roberto.jpg', 0),
 (10, '01234567J', 'Isabel Martín', '$2b$10$2XhE3EToGg3Vk9aX/n9Ra.T8UDu5m7.NVhWOl7ZgyKZbrdbmS6GSi', 'isabel.martin@email.com', '699012345', 'isabel.jpg', 1);
+
+
+INSERT INTO Book (isbn, name, description, image) VALUES
+('978-0451524935', '1984', 'Clásico distópico sobre vigilancia gubernamental', 'https://example.com/images/1984.jpg'),
+('978-0544003415', 'El Señor de los Anillos', 'Épica aventura en la Tierra Media', NULL),
+('978-0061120084', 'Cien años de soledad', 'Realismo mágico en Macondo', 'https://example.com/images/cien-anos.jpg'),
+('978-0140430721', 'Orgullo y prejuicio', 'Drama romántico en la Inglaterra del siglo XIX', NULL),
+('978-0307474278', 'El código Da Vinci', 'Thriller de misterio histórico', 'https://example.com/images/da-vinci.jpg');

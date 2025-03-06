@@ -16,3 +16,4 @@ class UpdateUserUseCase (val repository : UserInterface) {
     }
 
 }
+

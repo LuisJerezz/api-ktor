@@ -12,6 +12,7 @@ fun Application.configureRouting() {
         registerRouting()
         userRouting()
         loginRouting()
+        bookRouting()
 
 
         get("/") {
